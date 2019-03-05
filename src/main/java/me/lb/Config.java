@@ -1,8 +1,6 @@
 package me.lb;
 
-import java.nio.charset.Charset;
-import java.util.List;
-
+import me.lb.support.system.filter.PaginationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +13,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import me.lb.support.system.filter.PaginationFilter;
+import java.nio.charset.Charset;
+import java.util.List;
 
 @EnableWebMvc
 @Configuration
@@ -44,12 +43,6 @@ public class Config {
 	public CommonsMultipartResolver multipartResolver() {
 		return new CommonsMultipartResolver();
 	}
-
-	// 自定义异常处理
-	/*@Bean
-	public ExceptionHandler exceptionHandler() {
-		return new ExceptionHandler();
-	}*/
 
 	// 分页过滤器，用于获取分页参数
 	@Bean
