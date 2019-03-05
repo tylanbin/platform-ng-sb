@@ -1,2 +1,3 @@
-# platform-ng-sb
-platform-ng的springboot版本
+NG开发平台（个人使用）
+======
+NG开发平台的spring boot版本（不确定全部正确）

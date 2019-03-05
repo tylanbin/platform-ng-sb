@@ -1,0 +1,20 @@
+# eclipse
+.settings
+.project
+.classpath
+.mymetadata
+.myhibernatedata
+
+# java
+*.class
+
+# jrebel
+rebel.xml
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# maven
+target/

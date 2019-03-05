@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<!-- styles -->
+<link rel="stylesheet" type="text/css" href="../../../../assets/common/jquery-easyui/themes/custom/easyui.css">
+<link rel="stylesheet" type="text/css" href="../../../../assets/common/jquery-easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../../../../assets/common/jquery-easyui-custom/easyui.custom.css">
+<link rel="stylesheet" type="text/css" href="../../../../assets/common/jquery.loadmask/jquery.loadmask.css">
+<!-- scripts -->
+<script type="text/javascript" src="../../../../assets/common/jquery-easyui/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../../../assets/common/jquery-easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../../../../assets/common/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../../../../assets/common/jquery-easyui-custom/easyui.custom.js"></script>
+<script type="text/javascript" src="../../../../assets/common/jquery.loadmask/jquery.loadmask.min.js"></script>
+
+<script type="text/javascript" src="../../../../assets/common/framework.js"></script>
+<!-- 时间处理js -->
+<script type="text/javascript" src="../../../../assets/common/js.Date.js"></script>
+<!-- JSON2 -->
+<!--[if lt IE 8]>
+<script type="text/javascript" src="../../../../assets/common/json-js/json2.js"></script>
+<![endif]-->
+<!-- page scripts -->
+<script type="text/javascript" src="../../../../assets/admin/process/def/list.js"></script>
+</head>
+
+<body>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'center',border:false">
+			<table id="dg-list" data-options="title:'列表',toolbar:'#tb-list'"></table>
+			<div id="tb-list">
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="dlg_deploy()">部署</a>
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-key',plain:true" onclick="dlg_auth()">授权</a>
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="func_del()">删除</a>
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-flag',plain:true" onclick="func_state()">激活/挂起</a>
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-image',plain:true" onclick="func_view('img')">流程图</a>
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-code',plain:true" onclick="func_view('xml')">XML</a>
+				<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" onclick="func_reload()">刷新</a>
+				<input id="searchbox" class="easyui-searchbox" data-options="width:200,searcher:search,prompt:'请输入查询内容',menu:'#searchMenu'">
+				<div id="searchMenu">
+					<div data-options="name:'pdNameLike'">名称</div>
+					<div data-options="name:'pdKeyLike'">KEY</div>
+					<!-- <div data-options="name:'pdCategoryLike'">类别</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 使用zip进行部署 -->
+	<div id="dlg-deploy" class="easyui-dialog" style="width:320px;padding:10px;"
+		data-options="title:'部署',closed:true,buttons:'#dlg-btn-deploy',resizable:true,maximizable:true,modal:true">
+		<div style="margin:5px;">
+			<form id="fm-deploy" method="post" enctype="multipart/form-data">
+				<div style="text-align: center;">
+					<table style="border-width:0;" align="center">
+						<!-- <tr>
+							<td style="text-align: right;">名称：</td>
+							<td style="text-align: left;"><input type="text" name="name" class="easyui-textbox" data-options="required:true" /></td>
+						</tr> -->
+						<tr title="上传的文件只允许使用zip文件格式。" class="easyui-tooltip">
+							<td style="text-align: right;">文件：</td>
+							<td style="text-align: left;"><input type="text" name="file" class="easyui-filebox" data-options="required:true,buttonText:'浏览'" /></td>
+						</tr>
+						<!-- <tr style="height: 20px;">
+							<td style="text-align: center;" colspan="2"><font color="red">注意：上传的文件只允许使用zip文件格式。</font></td>
+						</tr> -->
+					</table>
+				</div>
+			</form>
+		</div>
+		<div id="dlg-btn-deploy">
+			<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="func_deploy()">确定</a>
+			<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="$('#dlg-deploy').dialog('close');">取消</a>
+		</div>
+	</div>
+	<!-- 设置发起人 -->
+	<div id="dlg-auth" class="easyui-dialog" style="width:420px;padding:10px;"
+		data-options="title:'部署',closed:true,buttons:'#dlg-btn-auth',resizable:true,modal:true">
+		<div style="margin:5px;">
+			<input type="hidden" id="auth-pdId" />
+			<div style="text-align: center;">
+				<table style="border-width:0;" align="center">
+					<tr>
+						<td style="text-align: right;">选择角色：</td>
+						<td style="text-align: left;">
+							<select id="auth-ids" class="easyui-combotree" style="width:300px;"></select>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="dlg-btn-auth">
+			<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="func_auth()">确定</a>
+			<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="$('#dlg-auth').dialog('close');">取消</a>
+		</div>
+	</div>
+	<!-- 预览 -->
+	<div id="dlg-view" class="easyui-dialog" style="width:600px;height:360px;padding:10px;text-align:center;"
+		data-options="title:'流程图',closed:true,buttons:'#dlg-btn-view',resizable:true,maximizable:true,modal:true">
+		<div id="dlg-btn-view">
+			<a href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="$('#dlg-view').dialog('close');">关闭</a>
+		</div>
+	</div>
+</body>
+</html>

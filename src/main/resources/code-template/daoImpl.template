@@ -1,0 +1,24 @@
+package me.lb.dao.{Category}.impl;
+
+import me.lb.dao.common.impl.GenericDaoImpl;
+import me.lb.dao.{Category}.{UpperCase}Dao;
+import me.lb.model.{Category}.{UpperCase};
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class {UpperCase}DaoImpl extends GenericDaoImpl<{UpperCase}> implements {UpperCase}Dao {
+
+	@Override
+	protected String getTableName() {
+		// 设置使用的表名
+		return "ng_{Category}_{LowerCase}";
+	}
+
+	@Override
+	protected String[] getIgnored() {
+		// 新增修改时不处理的字段，类似于Hibernate的@Transient
+		return new String[0];
+	}
+
+}
